@@ -1,0 +1,47 @@
+{
+  "name": "codex-switch",
+  "version": "1.0.0",
+  "description": "A CLI tool for switching between multiple Codex API configurations",
+  "main": "index.js",
+  "bin": {
+    "cxs": "./bin/cxs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "codex",
+    "cli",
+    "api",
+    "config",
+    "switch",
+    "openai",
+    "gpt",
+    "anthropic",
+    "claude"
+  ],
+  "author": "gweid",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gweid/codex-switch.git"
+  },
+  "homepage": "https://github.com/gweid/codex-switch#readme",
+  "bugs": {
+    "url": "https://github.com/gweid/codex-switch/issues"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "README.md"
+  ],
+  "dependencies": {
+    "@iarna/toml": "^2.2.5",
+    "chalk": "^4.1.2",
+    "fs-extra": "^11.3.2",
+    "inquirer": "^8.2.7"
+  }
+}

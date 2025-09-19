@@ -1,0 +1,75 @@
+#!/usr/bin/env node
+
+const chalk = require('chalk');
+const path = require('path');
+
+// 主命令处理器
+class CxsCli {
+    constructor() {
+        this.commands = {
+            'list': () => this.handleListCommand(),
+            'current': () => this.handleCurrentCommand(),
+            'help': () => this.showHelp(),
+            '--help': () => this.showHelp(),
+            '-h': () => this.showHelp()
+        };
+    }
+
+    async run() {
+        const args = process.argv.slice(2);
+        const command = args[0];
+
+        if (!command || command === 'help' || command === '--help' || command === '-h') {
+            this.showHelp();
+            return;
+        }
+
+        if (this.commands[command]) {
+            try {
+                await this.commands[command]();
+            } catch (error) {
+                console.error(chalk.red('❌ 执行错误:'), error.message);
+                process.exit(1);
+            }
+        } else {
+            console.error(chalk.red(`❌ 未知命令: ${command}`));
+            this.showHelp();
+            process.exit(1);
+        }
+    }
+
+    async handleListCommand() {
+        const ListCommand = require('../lib/commands/list-command');
+        const listCmd = new ListCommand();
+        await listCmd.execute();
+    }
+
+    async handleCurrentCommand() {
+        const CurrentCommand = require('../lib/commands/current-command');
+        const currentCmd = new CurrentCommand();
+        await currentCmd.execute();
+    }
+
+    showHelp() {
+        console.log(chalk.cyan('🔄 Codex 配置管理工具 (cxs)'));
+        console.log('');
+        console.log(chalk.bold('用法:'));
+        console.log('  cxs <command>');
+        console.log('');
+        console.log(chalk.bold('可用命令:'));
+        console.log('  list       显示可用账号列表并切换');
+        console.log('  current    显示当前配置信息');
+        console.log('  help       显示帮助信息');
+        console.log('');
+        console.log(chalk.bold('示例:'));
+        console.log('  cxs list        # 显示账号列表并选择切换');
+        console.log('  cxs current     # 查看当前使用的配置');
+        console.log('  cxs help        # 显示帮助信息');
+        console.log('');
+        console.log(chalk.gray('配置文件位置: ~/.codex/apiConfig.json'));
+    }
+}
+
+// 运行主命令
+const cli = new CxsCli();
+cli.run();
